@@ -21,7 +21,7 @@ To the run the spec tests
 ## Libs used
 
  - `sbt` as a build tool
- - `scalatest` as a spect test tool
+ - `scalatest` as a spectest tool
 
 ## Algorithm
 
