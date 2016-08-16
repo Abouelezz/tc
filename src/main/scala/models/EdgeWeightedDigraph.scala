@@ -36,10 +36,7 @@ class EdgeWeightedDigraph() {
     * @param v the from vertex
     * @return
     */
-  def getEdge(v: String) = {
-    require(edges.contains(v), "Edge doesn't exist")
-    edges.get(v)
-  }
+  def getEdge(v: String) = edges.get(v)
 
   /**
     * Getter for the number of edges

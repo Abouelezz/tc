@@ -17,8 +17,8 @@ class EdgeWeightedDigraphSpec extends FlatSpec {
   }
 
   it should "not provide non-exist edges" in {
-    assertThrows[IllegalArgumentException] {
-      edgeWeightedDigraph.getEdge("B")
-    }
+
+    assert(edgeWeightedDigraph.getEdge("B").isEmpty)
+
   }
 }

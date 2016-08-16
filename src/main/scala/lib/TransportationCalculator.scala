@@ -48,20 +48,23 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
     */
   private def prepare(source: String) = {
 
-    graph.getEdges foreach (edge => {
-      edge._1 match {
-        case `source` => distTo += (edge._1 -> 0)
-        /* Yes, it's not a real Infinity but it gets the max of Int type which is large enough for our use cases */
-        case _ => distTo += (edge._1 -> Double.PositiveInfinity)
-      }
-    })
+    /**
+      * Because every vertex is not visited yet, all of them = Infinity
+      * except for the source = 0 because it's known already
+      */
+    graph.getEdges.map(_._2.map( edge => edge.to match
+      {
+        case `source` => distTo += (edge.to -> 0)
+        case _ => distTo += (edge.to -> Double.PositiveInfinity)
+      }))
 
-    /* source destination always zero */
+    /* source's destination always zero */
     pq += ((source, 0))
 
     /* Relax all edges */
     while (pq.nonEmpty) relax(graph, pq.dequeue._1)
 
+    /* Saving the last relaxed source for caching purposes  */
     lastSource = source
   }
 
@@ -80,6 +83,10 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
 
     if (lastSource != source) prepare(source)
 
+    /**
+      * If the destination is not exist in the edgeTo map then it's
+      * defiantly unknown path
+      */
     if (!edgeTo.contains(destination)) {
 
       throw new NoRouteException(source, destination)
@@ -119,7 +126,10 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
       case e: Exception => throw new NoNearByStationsException(source, timeLimit)
     }
 
-    val nbMap = distTo.filter(_._2 > 0).filter(_._2 <= timeLimit)
+    /**
+      * This filters away the source and all destinations > time limit
+      */
+    val nbMap = distTo.filter(_._1 != source).filter(_._2 <= timeLimit)
 
     if (nbMap.isEmpty) throw new NoNearByStationsException(source, timeLimit)
 
@@ -134,36 +144,41 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
     */
   private def relax(graph: EdgeWeightedDigraph, v: String) = {
 
-    /* Single Sequence Comprehension for an optional edge value*/
-    for (edges <- graph.getEdge(v)) {
+    graph.getEdge(v).orNull match {
 
-      /**
-        * This will go throw all the edges connected to this vertex
-        */
-      edges foreach (edge => {
+      case edges: List[DirectedEdge] => {
+        /**
+          * This will go throw all the edges connected to this vertex
+          */
 
-        /* The next destination */
-        val w = edge.to
+        edges foreach (edge => {
 
-        /* When we have a shorter edge then save it */
-        if (distTo(w) > distTo(v) + edge.weight) {
+          /* The next destination */
+          val w = edge.to
 
-          distTo.update(w, distTo(v) + edge.weight)
-          edgeTo += (w -> edge)
+            /* When we have a shorter edge then save it */
+            if (distTo.exists(_._1 == v)
+                && distTo(w) > distTo(v) + edge.weight) {
 
-          /**
-            * If we have already one in the PQ then update
-            * Otherwise create a new one
-            */
-          pq.exists(_._1 == w) match {
-            case true => {
-              pq.dropWhile(_._1 == w)
-              pq += ((w, distTo(w)))
+              distTo.update(w, distTo(v) + edge.weight)
+              edgeTo += (w -> edge)
+
+              /**
+                * If we have already one in the PQ then update
+                * Otherwise create a new one
+                */
+              pq.exists(_._1 == w) match {
+                case true => {
+                  pq.dropWhile(_._1 == w)
+                  pq += ((w, distTo(w)))
+                }
+                case false => pq += ((w, distTo(w)))
+              }
             }
-            case false => pq += ((w, distTo(w)))
-          }
-        }
-      })
+
+        })
+      }
+      case null =>
     }
   }
 }
