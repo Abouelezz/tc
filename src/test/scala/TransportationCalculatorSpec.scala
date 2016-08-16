@@ -1,10 +1,9 @@
 package org.tc.test
 
-import lib.TransportationCalculator
 import models.{DirectedEdge, EdgeWeightedDigraph}
 import org.scalatest._
 import org.tc.exceptions.{NoNearByStationsException, NoRouteException}
-import org.tc.EdgeWeightedDigraph
+import testableLibs.{TransportationCalculatorTestable => TransportationCalculator}
 
 class TransportationCalculatorSpec extends FlatSpec {
 
@@ -31,6 +30,15 @@ class TransportationCalculatorSpec extends FlatSpec {
     TC =  new TransportationCalculator(edgeWeightedDigraph)
 
     assert(TC.shortPath("A", "B").toString() == "Stack(DirectedEdge(A,C,70.0), DirectedEdge(C,B,160.0))")
+  }
+
+  it should "have the right distTo map" in {
+      assert(TC.getDistTo.toString() == "Map(D -> 120.0, A -> 0.0, C -> 70.0, E -> 310.0, B -> 230.0)")
+
+  }
+
+  it should "have the right edgeTo map" in {
+      assert(TC.getEdgeTo.toString() == "Map(C -> DirectedEdge(A,C,70.0), D -> DirectedEdge(A,D,120.0), B -> DirectedEdge(C,B,160.0), E -> DirectedEdge(C,E,240.0))")
   }
 
   it should "throw error if the path is not exist in the required direction" in {

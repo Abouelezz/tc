@@ -15,14 +15,14 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
   /**
     * This will save all the time needed for all other destinations
     */
-  private var distTo: MutableMap[String, Double] = MutableMap.empty
+  protected var distTo: MutableMap[String, Double] = MutableMap.empty
 
   /**
     * This will save all the edges need to the other destinations
     *     The key is the destination vertex
     *     The value is the edge
     */
-  private var edgeTo: Map[String, DirectedEdge] = Map.empty
+  protected var edgeTo: Map[String, DirectedEdge] = Map.empty
 
   /**
     * Because scala's PriorityQueue is not keyed a tuple has been used
@@ -30,7 +30,7 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
     *         _1 is the key of the destination vertex
     *         _2 Time needed
     */
-  private val pq = mutable.PriorityQueue.empty[(String, Double)](
+  protected val pq = mutable.PriorityQueue.empty[(String, Double)](
     Ordering.by((_: (String, Double))._1).reverse
   )
 
@@ -38,7 +38,7 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
     * Will be used for caching purposes
     * So if the last source matching the new one then we will need to go throw every thing again
     */
-  private var lastSource = ""
+  protected var lastSource = ""
 
   /**
     * This should go throw all the graph's vertices and make

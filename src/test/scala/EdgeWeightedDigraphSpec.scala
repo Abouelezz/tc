@@ -2,7 +2,6 @@ package org.tc.test
 
 import models.{DirectedEdge, EdgeWeightedDigraph}
 import org.scalatest._
-import org.tc.EdgeWeightedDigraph
 
 class EdgeWeightedDigraphSpec extends FlatSpec {
 
