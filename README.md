@@ -28,7 +28,7 @@ nearby A, 130
 
 Or
 
-`sbt run < example.txt` for easier data entering
+`sbt run < simpleExample.txt` for easier data entering
 
 ### As a library
 
