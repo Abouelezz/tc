@@ -10,7 +10,8 @@ directions it is modelled as two distinct, opposing edges. The stations are iden
 
 ### From CLI
 
-`sbt run` the enter the the stations, required path and nearby station in the same format like
+`sbt run`
+then enter the the stations, required path and nearby station in the same format like:
 ```
 8
 A -> B: 240
@@ -24,6 +25,7 @@ E -> A: 300
 route A -> B
 nearby A, 130
 ```
+
 Or
 
 `sbt run < example.txt` for easier data entering
