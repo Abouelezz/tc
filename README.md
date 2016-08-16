@@ -9,9 +9,9 @@ directions it is modelled as two distinct, opposing edges. The stations are iden
 
 ## How to use
 
-`sbt run` the enter the the stations, required path and neatby station in the same format as in test1.txt
+`sbt run` the enter the the stations, required path and nearby station in the same format as in test1.txt
 Or
-`sbt run < test1.txt` for easier data entering
+`sbt run < example.txt` for easier data entering
 
 ## Tests
 
