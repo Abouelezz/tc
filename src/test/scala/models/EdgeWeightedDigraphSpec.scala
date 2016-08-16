@@ -1,4 +1,4 @@
-package org.tc.test
+package test.models
 
 import models.{DirectedEdge, EdgeWeightedDigraph}
 import org.scalatest._

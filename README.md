@@ -28,7 +28,7 @@ nearby A, 130
 
 Or
 
-`sbt run < simpleExample.txt` for easier data entering
+`sbt run < resources/examples/simpleExample.txt` for easier data entering
 
 ### As a library
 
@@ -59,8 +59,3 @@ To the run the spec tests
 
  - `sbt` as a build tool
  - `scalatest` as a spectest tool
-
-## The Algorithm
-
-This app uses [dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) with priority queue to get the shortest path. 
-Time complexity: `O(E V log V)` Where `V` is the number of vertices and `E` is the number of edges

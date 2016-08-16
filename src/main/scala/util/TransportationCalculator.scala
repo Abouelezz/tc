@@ -1,4 +1,4 @@
-package lib
+package util
 
 import models.{DirectedEdge, EdgeWeightedDigraph}
 import org.tc.exceptions.{NoNearbyStationsException, NoRouteException}

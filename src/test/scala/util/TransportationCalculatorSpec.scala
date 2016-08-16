@@ -1,9 +1,9 @@
-package org.tc.test
+package test.util
 
 import models.{DirectedEdge, EdgeWeightedDigraph}
 import org.scalatest._
 import org.tc.exceptions.{NoNearbyStationsException, NoRouteException}
-import testableLibs.{TransportationCalculatorTestable => TransportationCalculator}
+import test.testableLibs.{TransportationCalculatorTestable => TransportationCalculator}
 
 class TransportationCalculatorSpec extends FlatSpec {
 

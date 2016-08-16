@@ -1,6 +1,6 @@
-package testableLibs
+package test.testableLibs
 
-import lib.TransportationCalculator
+import util.TransportationCalculator
 import models.EdgeWeightedDigraph
 
 /**
