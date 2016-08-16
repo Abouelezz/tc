@@ -4,7 +4,7 @@ import lib.TransportationCalculator
 import models.EdgeWeightedDigraph
 
 /**
-  * this is the test version of TransportationCalculatorTestable
+  * this is the test version of TransportationCalculator
   * it has more Getter than it's needed on production or development
   */
 class TransportationCalculatorTestable(graph: EdgeWeightedDigraph)  extends TransportationCalculator(graph) {

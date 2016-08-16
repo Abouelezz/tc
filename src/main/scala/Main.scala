@@ -1,6 +1,6 @@
 package org.tc
 
-import exceptions.{NoNearByStationsException, NoRouteException}
+import exceptions.{NoNearbyStationsException, NoRouteException}
 import lib.TransportationCalculator
 import models.{DirectedEdge, EdgeWeightedDigraph}
 
@@ -91,7 +91,7 @@ object Main {
     }
 
     /**
-      * Try to parse the whole input first and filed it will throw an IllegalArgumentException
+      * Try to parse the whole input first and if failed it will throw an IllegalArgumentException
       */
     try {
       connections = scala.io.StdIn.readInt()
@@ -136,7 +136,7 @@ object Main {
     try {
       printNearBy(TC.nearBy(nearby._1, nearby._2))
     } catch {
-      case e: NoNearByStationsException => println(e)
+      case e: NoNearbyStationsException => println(e)
     }
   }
 }

@@ -1,7 +1,7 @@
 package lib
 
 import models.{DirectedEdge, EdgeWeightedDigraph}
-import org.tc.exceptions.{NoNearByStationsException, NoRouteException}
+import org.tc.exceptions.{NoNearbyStationsException, NoRouteException}
 
 import scala.collection.mutable
 import scala.collection.mutable.{Map => MutableMap}
@@ -49,8 +49,8 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
   private def prepare(source: String) = {
 
     /**
-      * Because every vertex is not visited yet, all of them = Infinity
-      * except for the source = 0 because it's known already
+      * Because every edge is not visited yet, all of them is Infinity
+      * except for the source is 0 because it's known already
       */
     graph.getEdges.map(_._2.map( edge => edge.to match
       {
@@ -123,7 +123,7 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
 
       if (lastSource != source) prepare(source)
     } catch {
-      case e: Exception => throw new NoNearByStationsException(source, timeLimit)
+      case e: Exception => throw new NoNearbyStationsException(source, timeLimit)
     }
 
     /**
@@ -131,7 +131,7 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
       */
     val nbMap = distTo.filter(_._1 != source).filter(_._2 <= timeLimit)
 
-    if (nbMap.isEmpty) throw new NoNearByStationsException(source, timeLimit)
+    if (nbMap.isEmpty) throw new NoNearbyStationsException(source, timeLimit)
 
     nbMap
   }
@@ -144,41 +144,38 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
     */
   private def relax(graph: EdgeWeightedDigraph, v: String) = {
 
-    graph.getEdge(v).orNull match {
 
-      case edges: List[DirectedEdge] => {
-        /**
-          * This will go throw all the edges connected to this vertex
-          */
+    if (graph.getEdge(v).isDefined) {
+      /**
+        * This will go throw all the edges connected to this vertex
+        */
 
-        edges foreach (edge => {
+      graph.getEdges(v) foreach (edge => {
 
-          /* The next destination */
-          val w = edge.to
+        /* The next destination */
+        val w = edge.to
 
-            /* When we have a shorter edge then save it */
-            if (distTo.exists(_._1 == v)
-                && distTo(w) > distTo(v) + edge.weight) {
+        /* When we have a shorter edge then save it */
+        if (distTo.exists(_._1 == v)
+          && distTo(w) > distTo(v) + edge.weight) {
 
-              distTo.update(w, distTo(v) + edge.weight)
-              edgeTo += (w -> edge)
+          distTo.update(w, distTo(v) + edge.weight)
+          edgeTo += (w -> edge)
 
-              /**
-                * If we have already one in the PQ then update
-                * Otherwise create a new one
-                */
-              pq.exists(_._1 == w) match {
-                case true => {
-                  pq.dropWhile(_._1 == w)
-                  pq += ((w, distTo(w)))
-                }
-                case false => pq += ((w, distTo(w)))
-              }
+          /**
+            * If we have already one in the PQ then update
+            * Otherwise create a new one
+            */
+          pq.exists(_._1 == w) match {
+            case true => {
+              pq.dropWhile(_._1 == w)
+              pq += ((w, distTo(w)))
             }
+            case false => pq += ((w, distTo(w)))
+          }
+        }
 
-        })
-      }
-      case null =>
+      })
     }
   }
 }

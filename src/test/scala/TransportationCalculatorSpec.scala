@@ -2,7 +2,7 @@ package org.tc.test
 
 import models.{DirectedEdge, EdgeWeightedDigraph}
 import org.scalatest._
-import org.tc.exceptions.{NoNearByStationsException, NoRouteException}
+import org.tc.exceptions.{NoNearbyStationsException, NoRouteException}
 import testableLibs.{TransportationCalculatorTestable => TransportationCalculator}
 
 class TransportationCalculatorSpec extends FlatSpec {
@@ -10,7 +10,7 @@ class TransportationCalculatorSpec extends FlatSpec {
   val edgeWeightedDigraph = new EdgeWeightedDigraph
   var TC: TransportationCalculator = null
 
-  "An TransportationCalculator" should "get the right short path with the right direction" in {
+  "TransportationCalculator" should "get the right short path with the right direction" in {
 
     edgeWeightedDigraph.addEdge(DirectedEdge("A", "B", 240))
     edgeWeightedDigraph.addEdge(DirectedEdge("A", "D", 120))
@@ -53,7 +53,7 @@ class TransportationCalculatorSpec extends FlatSpec {
   }
 
   it should "throw error if no stations available within the time limit needed" in {
-    assertThrows[NoNearByStationsException] {
+    assertThrows[NoNearbyStationsException] {
       TC.nearBy("A", 20)
     }
   }
