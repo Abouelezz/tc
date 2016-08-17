@@ -1,28 +1,28 @@
 package util
 
-import models.{DirectedEdge, EdgeWeightedDigraph}
+import models._
 import org.tc.exceptions.{NoNearbyStationsException, NoRouteException}
 
 import scala.collection.mutable
 import scala.collection.mutable.{Map => MutableMap}
 
 /**
-  * The main class to Calculate the short pathe from the source to destination
+  * The main class to Calculate the short path from the source to destination
   * @param graph the EdgeWeightedDigraph that will handle the transportation system
   */
-class TransportationCalculator(graph: EdgeWeightedDigraph) {
+class PublicTransportPlanner(graph: EdgeWeightedDigraph) {
 
   /**
     * This will save all the time needed for all other destinations
     */
-  protected var distTo: MutableMap[String, Double] = MutableMap.empty
+  protected var distTo: MutableMap[Vertex, Double] = MutableMap.empty
 
   /**
     * This will save all the edges need to the other destinations
     *     The key is the destination vertex
     *     The value is the edge
     */
-  protected var edgeTo: Map[String, DirectedEdge] = Map.empty
+  protected var edgeTo: Map[Vertex, DirectedEdge] = Map.empty
 
   /**
     * Because scala's PriorityQueue is not keyed a tuple has been used
@@ -30,15 +30,15 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
     *         _1 is the key of the destination vertex
     *         _2 Time needed
     */
-  protected val pq = mutable.PriorityQueue.empty[(String, Double)](
-    Ordering.by((_: (String, Double))._1).reverse
+  protected val pq = mutable.PriorityQueue.empty[(Vertex, Double)](
+    Ordering.by((_: (Vertex, Double))._2).reverse
   )
 
   /**
     * Will be used for caching purposes
     * So if the last source matching the new one then we will need to go throw every thing again
     */
-  protected var lastSource = ""
+  protected var lastSource: Vertex = _
 
   /**
     * This should go throw all the graph's vertices and make
@@ -46,7 +46,7 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
     *
     * @param source the Int that represents the starting point
     */
-  private def prepare(source: String) = {
+  private def prepare(source: Vertex) = {
 
     /**
       * Because every edge is not visited yet, all of them is Infinity
@@ -75,11 +75,11 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
     * @param destination The String representation of the destination station
     * @return
     */
-  def shortPath(source: String, destination: String): mutable.Stack[DirectedEdge] = {
+  def shortPath(source: Vertex, destination: Vertex): Path = {
 
     require(source != destination, "source and destination should be different")
 
-    val shortPathStack = new mutable.Stack[DirectedEdge]()
+    val shortPath = mutable.ListBuffer.empty[DirectedEdge]
 
     if (lastSource != source) prepare(source)
 
@@ -98,14 +98,18 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
       */
 
     /* Te destination should always be the end of the stack */
-    shortPathStack.push(edgeTo(destination))
+    shortPath.prepend(edgeTo(destination))
 
     /**
       * Once we reach the start point it will end
       * otherwise it should always get prev edge reversely
       */
-    while (shortPathStack.head.from != source) shortPathStack.push(edgeTo(shortPathStack.head.from))
-    shortPathStack
+    while (shortPath.head.from != source) shortPath.prepend(edgeTo(shortPath.head.from))
+
+    var vertices = shortPath.map(_.from)
+    vertices += shortPath.last.to
+
+    Path(vertices , shortPath.map(_.weight.toInt).sum)
   }
 
   /**
@@ -115,7 +119,7 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
     * @param timeLimit The max time to reach this point
     * @return
     */
-  def nearBy(source: String, timeLimit: Double): MutableMap[String, Double] = {
+  def nearBy(source: Vertex, timeLimit: Double): NearbyVertices = {
 
     require(timeLimit > 0, "time limit should be a positive number")
 
@@ -129,11 +133,11 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
     /**
       * This filters away the source and all destinations > time limit
       */
-    val nbMap = distTo.filter(_._1 != source).filter(_._2 <= timeLimit)
+    val nbMap: List[(Vertex, Double)] = distTo.filter(_._1 != source).filter(_._2 <= timeLimit).toList
 
     if (nbMap.isEmpty) throw new NoNearbyStationsException(source, timeLimit)
 
-    nbMap
+    NearbyVertices(nbMap)
   }
 
   /**
@@ -142,8 +146,7 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
     * @param graph the EdgeWeightedDigraph that will handle the transportation system
     * @param v the current vertex
     */
-  private def relax(graph: EdgeWeightedDigraph, v: String) = {
-
+  private def relax(graph: EdgeWeightedDigraph, v: Vertex) = {
 
     if (graph.getEdge(v).isDefined) {
       /**
@@ -174,7 +177,6 @@ class TransportationCalculator(graph: EdgeWeightedDigraph) {
             case false => pq += ((w, distTo(w)))
           }
         }
-
       })
     }
   }

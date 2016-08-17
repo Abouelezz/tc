@@ -1,13 +1,13 @@
 package test.testableLibs
 
-import util.TransportationCalculator
+import util.PublicTransportPlanner
 import models.EdgeWeightedDigraph
 
 /**
-  * this is the test version of TransportationCalculator
+  * this is the test version of PublicTransportPlanner
   * it has more Getter than it's needed on production or development
   */
-class TransportationCalculatorTestable(graph: EdgeWeightedDigraph)  extends TransportationCalculator(graph) {
+class PublicTransportPlannerTestable(graph: EdgeWeightedDigraph)  extends PublicTransportPlanner(graph) {
 
   /**
     * Getter for distTo

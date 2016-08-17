@@ -15,7 +15,7 @@ class EdgeWeightedDigraph() {
     *           The key is the from vertex
     *           The value is a list of all connected edges
     */
-  private var edges: MutableMap[String, List[DirectedEdge]] = MutableMap.empty
+  private var edges: MutableMap[Vertex, List[DirectedEdge]] = MutableMap.empty
 
   /**
     * This will add a new edge
@@ -23,7 +23,7 @@ class EdgeWeightedDigraph() {
     */
   def addEdge(e: DirectedEdge) = {
 
-    /* If it's the first time we initiate an empty list*/
+    /* If it's the first time we initiate an empty list */
     if (edges.get(e.from).isEmpty) edges += (e.from -> List.empty)
 
     edges.update(e.from, e :: edges(e.from))
@@ -36,7 +36,7 @@ class EdgeWeightedDigraph() {
     * @param v the from vertex
     * @return
     */
-  def getEdge(v: String) = edges.get(v)
+  def getEdge(v: Vertex) = edges.get(v)
 
   /**
     * Getter for the number of edges

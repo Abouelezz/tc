@@ -35,19 +35,19 @@ Or
 ```scala
 val edgeWeightedDigraph = new EdgeWeightedDigraph
 
-edgeWeightedDigraph.addEdge(DirectedEdge("A", "B", 240))
-edgeWeightedDigraph.addEdge(DirectedEdge("A", "D", 120))
-edgeWeightedDigraph.addEdge(DirectedEdge("C", "B", 160))
-edgeWeightedDigraph.addEdge(DirectedEdge("D", "E", 480))
-edgeWeightedDigraph.addEdge(DirectedEdge("C", "E", 240))
-edgeWeightedDigraph.addEdge(DirectedEdge("B", "E", 210))
-edgeWeightedDigraph.addEdge(DirectedEdge("E", "A", 300))
-edgeWeightedDigraph.addEdge(DirectedEdge("X", "A", 300))
+edgeWeightedDigraph.addEdge(DirectedEdge(Vertex("A"), Vertex("B"), 240))
+edgeWeightedDigraph.addEdge(DirectedEdge(Vertex("A"), Vertex("D"), 120))
+edgeWeightedDigraph.addEdge(DirectedEdge(Vertex("C"), Vertex("B"), 160))
+edgeWeightedDigraph.addEdge(DirectedEdge(Vertex("D"), Vertex("E"), 480))
+edgeWeightedDigraph.addEdge(DirectedEdge(Vertex("C"), Vertex("E"), 240))
+edgeWeightedDigraph.addEdge(DirectedEdge(Vertex("B"), Vertex("E"), 210))
+edgeWeightedDigraph.addEdge(DirectedEdge(Vertex("E"), Vertex("A"), 300))
+edgeWeightedDigraph.addEdge(DirectedEdge(Vertex("X"), Vertex("A"), 300))
 
-val TC =  new TransportationCalculator(edgeWeightedDigraph)
+val TC =  new PublicTransportPlanner(edgeWeightedDigraph)
 
-val shortPath = TC.shortPath("A", "B") 
-val nearby = TC.nearBy("A", 130) 
+val shortPath = TC.shortPath(Vertex("A"), Vertex("B")) 
+val nearby = TC.nearBy(Vertex("A"), 130) 
 ```
 
 ## Tests
