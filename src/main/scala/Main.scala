@@ -1,7 +1,7 @@
 package org.tc
 
 import exceptions.{NoNearbyStationsException, NoRouteException}
-import util.PublicTransportPlanner
+import util.{PublicTransportPlanner, graphBuilder}
 import models.{DirectedEdge, EdgeWeightedDigraph, Vertex}
 import util.io._
 
@@ -14,23 +14,19 @@ object Main {
     */
   def main(args: Array[String]) = {
 
-    val transportationDigraph = new EdgeWeightedDigraph
+
 
     val inputData = inputReader.gather(scala.io.StdIn.readLine, scala.io.StdIn.readInt)
 
     /**
-      * Every connection is represented as a DirectedEdge
-      * it creates every DirectedEdge then adds it to the
-      * transportation Directed graph
+      * Calling the graphBuilder to build the whole graph object out of parameters
       */
-    inputData.connections.foreach(param => {
-      transportationDigraph.addEdge(DirectedEdge(Vertex(param._1), Vertex(param._2), param._3))
-    })
+    val transportationDiraph = graphBuilder.build(inputData.connections)
 
     /**
       * Initialising the PublicTransportPlanner with transportationDigraph
       */
-    val TC =  new PublicTransportPlanner(transportationDigraph)
+    val TC =  new PublicTransportPlanner(transportationDiraph)
 
     /**
       * Try to find the shortest path and then print it

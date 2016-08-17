@@ -5,6 +5,7 @@ import scala.collection.mutable.ListBuffer
 /**
   * This will handle that resulted Path
   *
+  * @todo spec test
   * @param vertices list of the stations
   * @param time the time needed
   */

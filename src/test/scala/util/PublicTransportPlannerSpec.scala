@@ -8,7 +8,7 @@ import test.testableLibs.{PublicTransportPlannerTestable => PublicTransportPlann
 class PublicTransportPlannerSpec extends FlatSpec {
 
   val edgeWeightedDigraph = new EdgeWeightedDigraph
-  var TC: PublicTransportPlanner = null
+  var TC: PublicTransportPlanner = _
 
   "TransportationCalculator" should "get the right short path with the right direction" in {
 

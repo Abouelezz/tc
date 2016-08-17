@@ -3,6 +3,7 @@ package models
 /**
   * This will handle the nearby vertices
   *
+  * @todo spec test
   * @param vertices list of vertices with time
   */
 case class NearbyVertices(vertices: List[(Vertex, Double)]) {
