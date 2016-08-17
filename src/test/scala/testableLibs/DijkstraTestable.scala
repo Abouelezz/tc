@@ -1,13 +1,13 @@
 package test.testableLibs
 
-import util.PublicTransportPlanner
 import models.EdgeWeightedDigraph
+import util.strategies.Dijkstra
 
 /**
   * this is the test version of PublicTransportPlanner
   * it has more Getter than it's needed on production or development
   */
-class PublicTransportPlannerTestable(graph: EdgeWeightedDigraph)  extends PublicTransportPlanner(graph) {
+class DijkstraTestable(graph: EdgeWeightedDigraph)  extends Dijkstra(graph) {
 
   /**
     * Getter for distTo
