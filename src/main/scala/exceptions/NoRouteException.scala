@@ -1,4 +1,4 @@
-package org.tc.exceptions
+package exceptions
 
 import models.Vertex
 
@@ -9,7 +9,9 @@ import models.Vertex
   * @param destination the destination vertex
   */
 class NoRouteException(source: Vertex, destination: Vertex) extends Exception {
+
   override def toString: String = {
+
     s"Error: No route from $source to $destination"
   }
 }

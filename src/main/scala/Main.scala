@@ -3,7 +3,7 @@ package org.tc
 import util.{PublicTransportPlanner, graphBuilder}
 import models.Vertex
 import util.io._
-import util.strategies.StrategiesEnum
+import util.strategies.ShortestPathStrategiesEnum
 
 object Main {
 
@@ -13,9 +13,12 @@ object Main {
     */
   def main(args: Array[String]) = {
 
+    /**
+      * Try to obtain the strategy argument
+      */
     val strategy = args.length match {
       case 1 => args(0)
-      case _ => StrategiesEnum.default.toString
+      case _ => ShortestPathStrategiesEnum.default.toString
     }
 
     try {
@@ -44,7 +47,7 @@ object Main {
       /**
         * find the nearby stations within the time limit and then print it
         */
-        println(TC.nearBy(Vertex(inputData.nearby._1), inputData.nearby._2))
+        println(TC.getNearBy(Vertex(inputData.nearby._1), inputData.nearby._2))
 
     } catch {
       case e: Exception => println(e)

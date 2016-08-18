@@ -1,7 +1,5 @@
 package util.io
 
-import scala.util.Try
-
 /**
   * This Object responsible for parsing the input lines
   */
@@ -43,12 +41,15 @@ object inputParser {
     * @param line the input line
     * @return
     */
+  @throws(classOf[MatchError])
   def parseConnectionLine(line: String): (String, String, Double) = {
 
     try {
+
       val connectionLinePattern(from, to, weight) = line
       (from, to, weight.toDouble)
     } catch {
+
       case e: Exception => throw new MatchError("Input Error: Invalid connection")
     }
   }
@@ -59,12 +60,15 @@ object inputParser {
     * @param line the input line
     * @return
     */
+  @throws(classOf[MatchError])
   def parseRouteLine(line: String): (String, String) = {
 
     try {
+
       val routeLinePattern(from, to) = line
       (from, to)
     } catch {
+
       case e: Exception => throw new MatchError("Input Error: Invalid Route")
     }
   }
@@ -75,12 +79,15 @@ object inputParser {
     * @param line the input line
     * @return
     */
+  @throws(classOf[MatchError])
   def parseNearbyLine(line: String): (String, Double) = {
 
     try {
+
       val nearbyLinePattern(from, timeLimit) = line
       (from, timeLimit.toDouble)
     } catch {
+
       case e: Exception => throw new MatchError("Input Error: Invalid Nearby")
     }
   }

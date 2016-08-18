@@ -1,4 +1,4 @@
-package org.tc.exceptions
+package exceptions
 
 import models.Vertex
 
@@ -9,7 +9,9 @@ import models.Vertex
   * @param time the the time limit
   */
 class NoNearbyStationsException(source: Vertex, time: Double) extends Exception {
+
   override def toString: String = {
+
     f"Error: No nearby stations from $source within $time second(s)"
   }
 }

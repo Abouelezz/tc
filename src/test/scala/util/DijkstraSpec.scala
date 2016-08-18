@@ -2,15 +2,15 @@ package test.util
 
 import models.{DirectedEdge, EdgeWeightedDigraph, Vertex}
 import org.scalatest._
-import org.tc.exceptions.{NoNearbyStationsException, NoRouteException}
-import test.testableLibs.{DijkstraTestable => Dijkstra}
+import _root_.exceptions.{NoRouteException, NoNearbyStationsException}
+import test.testables.{DijkstraTestable => Dijkstra}
 
 class DijkstraSpec extends FlatSpec {
 
   val edgeWeightedDigraph = new EdgeWeightedDigraph
   var dijkstra: Dijkstra = _
 
-  "TransportationCalculator" should "get the right short path with the right direction" in {
+  "Dijkstra strategy specifiably" should "get the right short path with the right direction" in {
 
     edgeWeightedDigraph.addEdge(DirectedEdge(Vertex("A"), Vertex("B"), 240))
     edgeWeightedDigraph.addEdge(DirectedEdge(Vertex("A"), Vertex("D"), 120))

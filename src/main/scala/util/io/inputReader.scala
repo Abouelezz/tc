@@ -25,20 +25,29 @@ object inputReader {
     * @param readInt the function the reads integer line
     * @return
     */
+  @throws(classOf[MatchError])
   def gather(readLine: () => String, readInt: () => Int): InputDataModel = {
 
+    /**
+      * A Try of the connection count
+      */
     val connectionsCountTry = getConnectionsCount(readInt)
 
+    /* If the connection line wasn't valid */
     if (connectionsCountTry.isFailure) {
       throw new MatchError("Edges count is incorrect")
     }
 
+    /* real numbers of connections */
     val connectionsCount = connectionsCountTry.get
 
+    /* all connections parameters */
     val connectionsParams = getConnections(readLine, connectionsCount).map(inputParser.parseConnectionLine)
 
+    /* the route line parameters */
     val route = inputParser.parseRouteLine(readLine())
 
+    /* the nearby line parameters */
     val nearby = inputParser.parseNearbyLine(readLine())
 
     InputDataModel(connectionsCount, connectionsParams, route, nearby)
@@ -64,6 +73,7 @@ object inputReader {
     var connections: List[String] = List.empty
 
     for (i <- 1 to connectionsCount) {
+
       connections = connections :+ readLine()
     }
 

@@ -7,6 +7,7 @@ package models
   * @param vertices list of vertices with time
   */
 case class NearbyVertices(vertices: List[(Vertex, Double)]) {
+
   override def toString = {
 
     def formatNearby(station: Vertex, time: Double) = s"$station: ${time.toInt}"

@@ -4,7 +4,7 @@ import models.{DirectedEdge, EdgeWeightedDigraph, Vertex}
 
 /**
   * this object responsible for building the directed transportation graph
-  * out of parameters
+  * using of parameters of primitive types
   *
   * @todo spec test
   */
